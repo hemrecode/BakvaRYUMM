@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#062b35">
+  <title>BAKVARYUM | Akvaryum Hesaplayıcıları</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <canvas id="aquariumCanvas" aria-hidden="true"></canvas>
+
+  <div class="page-content">
+    <header class="topbar">
+    <a href="#" class="bakvaryum-logo" style="display: inline-flex; align-items: center; gap: 10px; text-decoration: none;" aria-label="BAKVARYUM ana sayfa">
+      <svg width="105" height="44" viewBox="0 0 132 58" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="BAK balık logosu">
+        <defs>
+          <linearGradient id="fishGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#00f2fe" />
+            <stop offset="65%" stop-color="#00d2ff" />
+            <stop offset="100%" stop-color="#ff8c00" />
+          </linearGradient>
+        </defs>
+        <path d="M25 11 C10 11, 5 29, 5 29 C5 29, 10 47, 25 47 V11 Z" stroke="url(#fishGrad)" stroke-width="3.5" stroke-linejoin="round"/>
+        <path d="M25 11 H34 C41 11, 41 28, 33 29 C42 30, 42 47, 34 47 H25" stroke="url(#fishGrad)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="16" cy="24" r="2.5" fill="#00f2fe"/>
+        <path d="M59 15 L72 5 L70 15" stroke="url(#fishGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M49 47 L67 12 L85 47" stroke="url(#fishGrad)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M55 35 H79" stroke="url(#fishGrad)" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M61 47 L69 54 L73 47" stroke="url(#fishGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M93 12 V46" stroke="url(#fishGrad)" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M93 29 L125 9 C121 19, 118 24, 113 29 C118 34, 121 39, 125 49 L93 29 Z" stroke="url(#fishGrad)" stroke-width="3.5" stroke-linejoin="round"/>
+      </svg>
+      <span style="color: #ffffff; font-size: 22px; font-weight: 800; letter-spacing: 1.5px; font-family: sans-serif;">VARYUM</span>
+    </a>
+
+    <nav class="main-nav" aria-label="Ana navigasyon">
+      <a class="nav-link is-active" href="#bakvaryum" aria-current="page">
+        Bakvaryum <span class="status status-live">Aktif</span>
+      </a>
+      <a class="nav-link" href="#hesaplayicilar">
+        Bulvaryum <span class="status status-soon">Pasif</span>
+      </a>
+      <a class="nav-link" href="#yapvaryum">
+        Yapvaryum <span class="status status-soon">Yakında</span>
+      </a>
+    </nav>
+
+    <button class="profile-entry" type="button" disabled aria-label="Profil girişi şu anda pasif">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="8" r="3.5"></circle>
+        <path d="M5 20c.7-3.4 3.2-5.2 7-5.2s6.3 1.8 7 5.2"></path>
+      </svg>
+      <span>Profil girişi</span>
+      <span class="status status-soon">Pasif</span>
+    </button>
+    </header>
+
+    <main>
+    <section class="calculator-section" id="hesaplayicilar">
+      <h1>HESAPLAYICILAR</h1>
+      <p class="section-description">Akvaryumun ve teraryumun için doğru değerleri keşfet.</p>
+
+      <div class="carousel-meta" aria-label="Hesaplayıcı ilerlemesi">
+        <span class="carousel-position" id="page-count">02 <span>/ 12</span></span>
+        <div class="dock-pages" aria-label="Hesaplayıcı seçimi">
+          <button class="page-dot is-selected" type="button" data-page="0" aria-label="1. hesaplayıcı"></button>
+        </div>
+        <label class="filter-control">
+          <span>Kategori</span>
+          <select id="calculator-filter" aria-label="Hesaplayıcıları kategoriye göre filtrele">
+            <option value="all">Tüm hesaplayıcılar</option>
+            <option value="kurulum">Kurulum</option>
+            <option value="ekipman">Ekipman</option>
+            <option value="bakim">Bakım</option>
+            <option value="teraryum">Teraryum</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="carousel" aria-label="Akvaryum hesaplayıcıları">
+        <button class="carousel-arrow" id="previous-card" type="button"
+          aria-label="Önceki hesaplayıcı">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M15 18 9 12l6-6"/>
+          </svg>
+        </button>
+
+        <div class="calculator-viewport" id="calculator-viewport">
+          <div class="calculator-list" id="calculator-track">
+            <form class="calculator-card" data-calculator="volume" data-category="kurulum" data-card="0">
+              <span class="card-number">01 / HACİM · KURULUM</span>
+              <h2>Net su hacmi</h2>
+              <div class="card-fields">
+                <label>Uzunluk (cm)<input name="length" type="number" min="1" step="any" required></label>
+                <label>Genişlik (cm)<input name="width" type="number" min="1" step="any" required></label>
+                <label>Yükseklik (cm)<input name="height" type="number" min="1" step="any" required></label>
+                <label>Cam kalınlığı (mm)<input name="glass" type="number" min="1" step="any" value="6" required></label>
+                <label>Dekor/kum doluluk payı (%)<input name="displacement" type="number" min="0" max="100" step="any" value="15" required></label>
+              </div>
+              <button class="calculate-button" type="submit">Hesapla <span aria-hidden="true">↗</span></button>
+              <output class="calculation-result" aria-live="polite">Brüt ve net hacim sonucu burada görünecek.</output>
+            </form>
+
+            <form class="calculator-card is-current" data-calculator="substrate" data-category="kurulum" data-card="1">
+              <span class="card-number">02 / ZEMİN · KURULUM</span>
+              <h2>Kum ve aktif toprak</h2>
+              <div class="card-fields">
+                <label>Uzunluk (cm)<input name="length" type="number" min="1" step="any" required></label>
+                <label>Genişlik (cm)<input name="width" type="number" min="1" step="any" required></label>
+                <label>Ön yükseklik (cm)<input name="front" type="number" min="0" step="any" value="4" required></label>
+                <label>Arka yükseklik (cm)<input name="back" type="number" min="0" step="any" value="7" required></label>
+                <label>Malzeme türü<select name="material"><option value="quartz">Kuvars / Dere Kumu</option><option value="lava">Lav Kırığı</option><option value="active">Aktif Bitki Toprağı</option></select></label>
+              </div>
+              <button class="calculate-button" type="submit">Hesapla <span aria-hidden="true">↗</span></button>
+              <output class="calculation-result" aria-live="polite">Litre ve kilogram sonucu burada görünecek.</output>
+            </form>
+
+            <form class="calculator-card" data-calculator="glass" data-category="kurulum" data-card="2">
+              <span class="card-number">03 / GÜVENLİK · KURULUM</span>
+              <h2>Cam kalınlığı</h2>
+              <div class="card-fields">
+                <label>Uzunluk (cm)<input name="length" type="number" min="1" step="any" required></label>
+                <label>Su yüksekliği (cm)<input name="height" type="number" min="1" step="any" required></label>
+              </div>
+              <button class="calculate-button" type="submit">Hesapla <span aria-hidden="true">↗</span></button>
+              <output class="calculation-result" aria-live="polite">Önerilen cam kalınlığı burada görünecek.</output>
+            </form>
+
+            <form class="calculator-card" data-calculator="filter" data-category="ekipman" data-card="3">
+              <span class="card-number">04 / FİLTRASYON · EKİPMAN</span>
+              <h2>Filtre debisi</h2>
+              <div class="card-fields">
+                <label>Net hacim (litre)<input name="volume" type="number" min="0.1" step="any" required></label>
+                <label>Tank yoğunluğu<select name="density"><option value="4">Az Balıklı / Bitkili</option><option value="6">Karma Akvaryum</option><option value="8">Yoğun Balıklı / Cichlid</option></select></label>
+              </div>
+              <button class="calculate-button" type="submit">Hesapla <span aria-hidden="true">↗</span></button>
+              <output class="calculation-result" aria-live="polite">Önerilen filtre debisi burada görünecek.</output>
+            </form>
+
+            <form class="calculator-card" data-calculator="heater" data-category="ekipman" data-card="4">
+              <span class="card-number">05 / ISI · EKİPMAN</span>
+              <h2>Isıtıcı watt hesabı</h2>
+              <div class="card-fields">
+                <label>Net hacim (litre)<input name="volume" type="number" min="0.1" step="any" required></label>
+                <label>Oda sıcaklığı (°C)<input name="room" type="number" step="any" value="20" required></label>
+                <label>Hedef su sıcaklığı (°C)<input name="target" type="number" step="any" value="25" required></label>
+              </div>
+              <button class="calculate-button" type="submit">Hesapla <span aria-hidden="true">↗</span></button>
+              <output class="calculation-result" aria-live="polite">Önerilen ısıtıcı gücü burada görünecek.</output>
+            </form>
+
+            <form class="calculator-card" data-calculator="light" data-category="ekipman" data-card="5">
+              <span class="card-number">06 / IŞIK · EKİPMAN</span>
+              <h2>Aydınlatma lümeni</h2>
+              <div class="card-fields">
+                <label>Net hacim (litre)<input name="volume" type="number" min="0.1" step="any" required></label>
+                <label>Bitki seviyesi<select name="plants"><option value="12">Bitkisiz</option><option value="25">Kolay Bitkili / Low-Tech</option><option value="45">Zor Bitkili / High-Tech</option></select></label>
+              </div>
+              <button class="calculate-button" type="submit">Hesapla <span aria-hidden="true">↗</span></button>
+              <output class="calculation-result" aria-live="polite">Toplam lümen burada görünecek.</output>
+            </form>
+
+            <form class="calculator-card" data-calculator="energy" data-category="ekipman" data-card="6">
+              <span class="card-number">07 / ENERJİ · EKİPMAN</span>
+              <h2>Aylık elektrik tüketimi</h2>
+              <div class="card-fields">
+                <label>Filtre gücü (W)<input name="filter" type="number" min="0" step="any" required></label>
+                <label>Aydınlatma gücü (W)<input name="light" type="number" min="0" step="any" required></label>
+                <label>Günlük ışık süresi (saat)<input name="hours" type="number" min="0" max="24" step="any" value="8" required></label>
+                <label>Isıtıcı gücü (W)<input name="heater" type="number" min="0" step="any" required></label>
+                <label>Elektrik birim fiyatı (TL/kWh)<input name="price" type="number" min="0" step="any" value="2.6" required></label>
+              </div>
+              <button class="calculate-button" type="submit">Hesapla <span aria-hidden="true">↗</span></button>
+              <output class="calculation-result" aria-live="polite">Aylık tüketim ve maliyet burada görünecek.</output>
+            </form>
+
+            <form class="calculator-card" data-calculator="capacity" data-category="bakim" data-card="7">
+              <span class="card-number">08 / CANLILAR · BAKIM</span>
+              <h2>Akıllı balık kapasitesi</h2>
+              <div class="card-fields">
+                <label>Net hacim (litre)<input name="volume" type="number" min="0.1" step="any" required></label>
+                <label>Balık sınıfı<select name="class"><option value="3.5">Nano / Sürü Balıkları (3-4 cm)</option><option value="6">Orta Boy Türler (5-7 cm)</option><option value="25">Büyük Türler (10+ cm)</option></select></label>
+              </div>
+              <button class="calculate-button" type="submit">Hesapla <span aria-hidden="true">↗</span></button>
+              <output class="calculation-result" aria-live="polite">Maksimum balık sayısı burada görünecek.</output>
+            </form>
+
+            <form class="calculator-card" data-calculator="water-change" data-category="bakim" data-card="8">
+              <span class="card-number">09 / SU DEĞİŞİMİ · BAKIM</span>
+              <h2>Su değişimi ve dozaj</h2>
+              <div class="card-fields">
+                <label>Net hacim (litre)<input name="volume" type="number" min="0.1" step="any" required></label>
+                <label>Değişim oranı (%)<input name="ratio" type="number" min="0" max="100" step="any" value="25" required></label>
+                <label>Ürün dozaj oranı (litre / 1 ml)<input name="dose-volume" type="number" min="0.1" step="any" value="10" required></label>
+              </div>
+              <button class="calculate-button" type="submit">Hesapla <span aria-hidden="true">↗</span></button>
+              <output class="calculation-result" aria-live="polite">Su değişimi ve dozaj sonucu burada görünecek.</output>
+            </form>
+
+            <form class="calculator-card" data-calculator="co2" data-category="bakim" data-card="9">
+              <span class="card-number">10 / KİMYA · BAKIM</span>
+              <h2>CO2 seviye kontrolü</h2>
+              <div class="card-fields">
+                <label>Su pH değeri<input name="ph" type="number" min="0" max="14" step="any" value="6.8" required></label>
+                <label>KH karbonat sertliği (dKH)<input name="kh" type="number" min="0" step="any" value="4" required></label>
+              </div>
+              <button class="calculate-button" type="submit">Hesapla <span aria-hidden="true">↗</span></button>
+              <output class="calculation-result" aria-live="polite">CO2 seviyesi ve durumu burada görünecek.</output>
+            </form>
+
+            <form class="calculator-card" data-calculator="terrarium-layers" data-category="teraryum" data-card="10">
+              <span class="card-number">11 / KATMAN · TERARYUM</span>
+              <h2>Katman malzemesi</h2>
+              <div class="card-fields">
+                <label>Taban uzunluğu (cm)<input name="length" type="number" min="1" step="any" required></label>
+                <label>Taban genişliği (cm)<input name="width" type="number" min="1" step="any" required></label>
+              </div>
+              <button class="calculate-button" type="submit">Hesapla <span aria-hidden="true">↗</span></button>
+              <output class="calculation-result" aria-live="polite">Katman hacimleri burada görünecek.</output>
+            </form>
+
+            <form class="calculator-card" data-calculator="terrarium-climate" data-category="teraryum" data-card="11">
+              <span class="card-number">12 / NEM · TERARYUM</span>
+              <h2>Nem ve sisleme rehberi</h2>
+              <div class="card-fields">
+                <label>Kap tipi<select name="container"><option value="closed">Tam Kapalı Cam</option><option value="semi">Yarı Açık</option><option value="open">Tam Açık</option></select></label>
+                <label>Bitki/canlı türü<select name="species"><option value="tropical">Tropikal Yosun &amp; Fittonia</option><option value="succulent">Sukulent &amp; Kaktüs</option><option value="reptile">Tropikal Sürüngen</option></select></label>
+              </div>
+              <button class="calculate-button" type="submit">Hesapla <span aria-hidden="true">↗</span></button>
+              <output class="calculation-result" aria-live="polite">Nem hedefi ve sisleme önerisi burada görünecek.</output>
+            </form>
+          </div>
+        </div>
+
+        <button class="carousel-arrow" id="next-card" type="button"
+          aria-label="Sonraki hesaplayıcı">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m9 18 6-6-6-6"/>
+          </svg>
+        </button>
+      </div>
+    </section>
+    </main>
+
+    <nav class="page-dock" aria-label="Site sayfaları">
+      <a class="page-tab is-active" href="#hesaplayicilar" aria-current="page">Hesaplayıcılar</a>
+      <a class="page-tab" href="#ansiklopedi">Ansiklopedi <span>Yakında</span></a>
+      <a class="page-tab" href="#bakim-rehberi">Bakım rehberi <span>Yakında</span></a>
+    </nav>
+  </div>
+</body>
+</html>
